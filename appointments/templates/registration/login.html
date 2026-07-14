@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar Sesión - BarberTime{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2 class="form-title">Iniciar Sesión</h2>
+    
+    <form method="post" novalidate>
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="username" class="form-label">Número de Teléfono</label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="Ingresa tu teléfono" required autofocus>
+        </div>
+        
+        <div class="form-group">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Ingresar</button>
+    </form>
+    
+    <div class="form-footer">
+        ¿No tienes una cuenta aún? <a href="{% url 'register' %}">Regístrate aquí</a>
+    </div>
+</div>
+{% endblock %}

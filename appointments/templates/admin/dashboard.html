@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Panel de Control Administrador - BarberTime{% endblock %}
+
+{% block content %}
+<div class="card-header" style="margin-top: 1rem;">
+    <h2>Control General de Citas</h2>
+    <a href="{% url 'admin_book' %}" class="btn btn-primary">Reservar en Nombre de Cliente</a>
+</div>
+
+<!-- Filters bar -->
+<form method="get" class="filter-bar" style="margin-top: 1.5rem;">
+    <div class="filter-group">
+        <label for="date-filter" class="form-label" style="margin-bottom: 0;">Filtrar por Fecha</label>
+        <input type="date" name="date" id="date-filter" class="form-control" value="{{ selected_date }}" style="padding: 0.4rem 0.8rem; width: auto;">
+    </div>
+    
+    <div class="filter-group">
+        <label for="status-filter" class="form-label" style="margin-bottom: 0;">Filtrar por Estado</label>
+        <select name="status" id="status-filter" class="form-control" style="padding: 0.4rem 0.8rem; width: auto;">
+            <option value="ALL" {% if selected_status == 'ALL' %}selected{% endif %}>Todos los estados</option>
+            {% for code, label in status_choices %}
+                <option value="{{ code }}" {% if selected_status == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-secondary btn-sm" style="height: 38px;">Aplicar Filtros</button>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-sm" style="height: 38px; display: flex; align-items: center; justify-content: center;">Limpiar</a>
+</form>
+
+<div class="card">
+    <h3 class="card-title" style="margin-bottom: 1rem;">Listado de Citas Encontradas</h3>
+    
+    {% if appointments %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Horario</th>
+                        <th>Cliente</th>
+                        <th>Teléfono</th>
+                        <th>Servicio</th>
+                        <th>Barbero</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in appointments %}
+                        <tr>
+                            <td>{{ app.date|date:"d M, Y" }}</td>
+                            <td>{{ app.start_time|time:"H:i" }} - {{ app.end_time|time:"H:i" }}</td>
+                            <td>{{ app.client.user.first_name }}</td>
+                            <td>{{ app.client.phone }}</td>
+                            <td>{{ app.service.name }}</td>
+                            <td>{{ app.barber.first_name|default:app.barber.username }}</td>
+                            <td>
+                                {% if app.status == 'SCHEDULED' %}
+                                    <span class="badge badge-scheduled">Programada</span>
+                                {% elif app.status == 'COMPLETED' %}
+                                    <span class="badge badge-completed">Completada</span>
+                                {% elif app.status == 'CANCELLED' %}
+                                    <span class="badge badge-cancelled">Cancelada</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p style="color: var(--text-muted); font-style: italic;">No se encontraron citas para los filtros seleccionados.</p>
+    {% endif %}
+</div>
+{% endblock %}

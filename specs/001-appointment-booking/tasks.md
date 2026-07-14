@@ -18,9 +18,9 @@
 
 **Purpose**: Project initialization and basic structure.
 
-- [ ] T001 Initialize project dependencies configuration in `requirements.txt`
-- [ ] T002 Initialize Django project in `barbertime/` and create the app `appointments/` in the repository root
-- [ ] T003 [P] Configure environment variable reading and database parsing in `barbertime/settings.py`
+- [X] T001 Initialize project dependencies configuration in `requirements.txt`
+- [X] T002 Initialize Django project in `barbertime/` and create the app `appointments/` in the repository root
+- [X] T003 [P] Configure environment variable reading and database parsing in `barbertime/settings.py`
 
 ---
 
@@ -30,10 +30,10 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T004 Define the base `SoftDeleteModel` class and custom manager in `appointments/models.py`
-- [ ] T005 [P] Configure static files serving via WhiteNoise and root URL routing in `barbertime/settings.py` and `barbertime/urls.py`
-- [ ] T006 Create the shared base HTML skeleton structure in `appointments/templates/base.html`
-- [ ] T007 [P] Implement base visual design CSS stylesheet in `appointments/static/css/style.css`
+- [X] T004 Define the base `SoftDeleteModel` class and custom manager in `appointments/models.py`
+- [X] T005 [P] Configure static files serving via WhiteNoise and root URL routing in `barbertime/settings.py` and `barbertime/urls.py`
+- [X] T006 Create the shared base HTML skeleton structure in `appointments/templates/base.html`
+- [X] T007 [P] Implement base visual design CSS stylesheet in `appointments/static/css/style.css`
 - [ ] T008 Run initial database migrations using `manage.py`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel.
@@ -50,16 +50,16 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T009 [P] [US1] Write registration and login form/view tests in `appointments/tests/test_views.py`
+- [X] T009 [P] [US1] Write registration and login form/view tests in `appointments/tests/test_views.py`
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Create the `Cliente` model with OneToOne link to `User` in `appointments/models.py`
-- [ ] T011 [US1] Create client registration form validation logic in `appointments/forms.py`
-- [ ] T012 [US1] Implement views for client registration, login, and logout in `appointments/views.py`
-- [ ] T013 [P] [US1] Design HTML template for registration form in `appointments/templates/registration/register.html`
-- [ ] T014 [P] [US1] Design HTML template for login form in `appointments/templates/registration/login.html`
-- [ ] T015 [US1] Configure authentication routing in `appointments/urls.py`
+- [X] T010 [P] [US1] Create the `Cliente` model with OneToOne link to `User` in `appointments/models.py`
+- [X] T011 [US1] Create client registration form validation logic in `appointments/forms.py`
+- [X] T012 [US1] Implement views for client registration, login, and logout in `appointments/views.py`
+- [X] T013 [P] [US1] Design HTML template for registration form in `appointments/templates/registration/register.html`
+- [X] T014 [P] [US1] Design HTML template for login form in `appointments/templates/registration/login.html`
+- [X] T015 [US1] Configure authentication routing in `appointments/urls.py`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently.
 
@@ -73,17 +73,17 @@
 
 ### Tests for User Story 2 (MANDATORY) ⚠️
 
-- [ ] T016 [P] [US2] Write tests for client dashboard access and booking views in `appointments/tests/test_views.py`
+- [X] T016 [P] [US2] Write tests for client dashboard access and booking views in `appointments/tests/test_views.py`
 
 ### Implementation for User Story 2
 
-- [ ] T017 [P] [US2] Create the `Service` model with soft delete functionality in `appointments/models.py`
-- [ ] T018 [US2] Create the `Appointment` model and run migrations in `appointments/models.py`
-- [ ] T019 [US2] Implement client dashboard view filtering only owned appointments in `appointments/views.py`
-- [ ] T020 [US2] Implement booking form and cancellation views in `appointments/views.py`
-- [ ] T021 [P] [US2] Design HTML template for client dashboard in `appointments/templates/client/dashboard.html`
-- [ ] T022 [P] [US2] Design HTML template for booking appointment form in `appointments/templates/client/book.html`
-- [ ] T023 [US2] Register routing for client dashboard, booking, and cancellation in `appointments/urls.py`
+- [X] T017 [P] [US2] Create the `Service` model with soft delete functionality in `appointments/models.py`
+- [X] T018 [US2] Create the `Appointment` model and run migrations in `appointments/models.py`
+- [X] T019 [US2] Implement client dashboard view filtering only owned appointments in `appointments/views.py`
+- [X] T020 [US2] Implement booking form and cancellation views in `appointments/views.py`
+- [X] T021 [P] [US2] Design HTML template for client dashboard in `appointments/templates/client/dashboard.html`
+- [X] T022 [P] [US2] Design HTML template for booking appointment form in `appointments/templates/client/book.html`
+- [X] T023 [US2] Register routing for client dashboard, booking, and cancellation in `appointments/urls.py`
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently.
 
@@ -97,12 +97,12 @@
 
 ### Tests for User Story 3 (MANDATORY) ⚠️
 
-- [ ] T024 [P] [US3] Write validation and race condition tests for overlapping appointments in `appointments/tests/test_models.py`
+- [X] T024 [P] [US3] Write validation and race condition tests for overlapping appointments in `appointments/tests/test_models.py`
 
 ### Implementation for User Story 3
 
-- [ ] T025 [US3] Implement overlap validation logic in the `clean()` method of `Appointment` in `appointments/models.py`
-- [ ] T026 [US3] Implement transactional locking (`select_for_update`) during appointment creation inside `appointments/views.py`
+- [X] T025 [US3] Implement overlap validation logic in the `clean()` method of `Appointment` in `appointments/models.py`
+- [X] T026 [US3] Implement transactional locking (`select_for_update`) during appointment creation inside `appointments/views.py`
 
 **Checkpoint**: Overlap validation is active. Double bookings are blocked from both client and admin channels.
 
@@ -116,14 +116,14 @@
 
 ### Tests for User Story 4 (MANDATORY) ⚠️
 
-- [ ] T027 [P] [US4] Write unit tests for staff authorization and CRUD operations in `appointments/tests/test_views.py`
+- [X] T027 [P] [US4] Write unit tests for staff authorization and CRUD operations in `appointments/tests/test_views.py`
 
 ### Implementation for User Story 4
 
-- [ ] T028 [US4] Implement staff-only admin view permissions and logic for managing clients and services in `appointments/views.py`
-- [ ] T029 [US4] Implement "Book on Behalf" of client view in `appointments/views.py`
-- [ ] T030 [P] [US4] Design HTML template for the staff booking form in `appointments/templates/admin/book_appointment.html`
-- [ ] T031 [US4] Register URL routes for admin management endpoints in `appointments/urls.py`
+- [X] T028 [US4] Implement staff-only admin view permissions and logic for managing clients and services in `appointments/views.py`
+- [X] T029 [US4] Implement "Book on Behalf" of client view in `appointments/views.py`
+- [X] T030 [P] [US4] Design HTML template for the staff booking form in `appointments/templates/admin/book_appointment.html`
+- [X] T031 [US4] Register URL routes for admin management endpoints in `appointments/urls.py`
 
 **Checkpoint**: Staff management features are active. Admin can manage clients, services, and bookings.
 
@@ -137,13 +137,13 @@
 
 ### Tests for User Story 5 (MANDATORY) ⚠️
 
-- [ ] T032 [P] [US5] Write tests for appointment listing and filtering query logic in `appointments/tests/test_views.py`
+- [X] T032 [P] [US5] Write tests for appointment listing and filtering query logic in `appointments/tests/test_views.py`
 
 ### Implementation for User Story 5
 
-- [ ] T033 [US5] Implement the admin dashboard appointment query list with date and status filters in `appointments/views.py`
-- [ ] T034 [P] [US5] Design HTML template for the admin dashboard in `appointments/templates/admin/dashboard.html`
-- [ ] T035 [US5] Register routing for the admin dashboard in `appointments/urls.py`
+- [X] T033 [US5] Implement the admin dashboard appointment query list with date and status filters in `appointments/views.py`
+- [X] T034 [P] [US5] Design HTML template for the admin dashboard in `appointments/templates/admin/dashboard.html`
+- [X] T035 [US5] Register routing for the admin dashboard in `appointments/urls.py`
 
 **Checkpoint**: All user stories are complete and integrated.
 
@@ -153,8 +153,8 @@
 
 **Purpose**: Improvements that affect multiple user stories.
 
-- [ ] T036 [P] Implement cascading cancellation logic for appointments when a client profile is soft-deleted in `appointments/models.py`
-- [ ] T037 [P] Add premium styling and micro-animations to the forms and dashboards in `appointments/static/css/style.css`
+- [X] T036 [P] Implement cascading cancellation logic for appointments when a client profile is soft-deleted in `appointments/models.py`
+- [X] T037 [P] Add premium styling and micro-animations to the forms and dashboards in `appointments/static/css/style.css`
 - [ ] T038 Verify static files collection and Whitenoise setup using `manage.py`
 - [ ] T039 Execute validation checklist in `specs/001-appointment-booking/quickstart.md`
 - [ ] T040 Run all automated tests using `manage.py`
