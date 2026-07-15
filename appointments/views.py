@@ -63,12 +63,6 @@ def register_view(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-class CustomLoginView(render):
-    """
-    Custom view logic for handling login and redirection based on user role.
-    """
-    pass
-
 # Direct Login View handling routing
 def login_view(request):
     if request.user.is_authenticated:
@@ -86,8 +80,9 @@ def login_view(request):
         
         if user is not None:
             if user.is_active:
+                nombre_mostrar = user.first_name or user.username
                 login(request, user)
-                messages.success(request, f"¡Hola de nuevo, {user.first_name|default:user.username}!")
+                messages.success(request, f"¡Hola de nuevo, {nombre_mostrar}!")
                 if user.is_staff:
                     return redirect('admin_dashboard')
                 return redirect('dashboard')
