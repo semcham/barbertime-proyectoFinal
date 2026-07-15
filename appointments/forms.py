@@ -15,6 +15,10 @@ class ClientRegistrationForm(forms.Form):
         label="Número de Teléfono",
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. 3001234567'})
     )
+    email = forms.EmailField(
+        label="Correo Electrónico",
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'tucorreo@ejemplo.com'})
+    )
     password = forms.CharField(
         label="Contraseña",
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña (mín. 8 caracteres)'})
@@ -22,23 +26,25 @@ class ClientRegistrationForm(forms.Form):
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
-        # Check if phone contains only digits
         if not phone.isdigit():
             raise ValidationError("El número de teléfono debe contener solo dígitos.")
-        # Check length
         if len(phone) < 7 or len(phone) > 15:
             raise ValidationError("El número de teléfono debe tener entre 7 y 15 dígitos.")
-        # Check uniqueness in Django User database
         if User.objects.filter(username=phone).exists():
             raise ValidationError("El número de teléfono ya está registrado.")
         return phone
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Cliente.objects.filter(email=email).exists():
+            raise ValidationError("Ese correo electrónico ya está registrado.")
+        return email
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
         if len(password) < 8:
             raise ValidationError("La contraseña debe tener al menos 8 caracteres.")
         return password
-
 
 class ClientAppointmentForm(forms.ModelForm):
     class Meta:

@@ -41,15 +41,18 @@ def register_view(request):
                     phone = form.cleaned_data['phone']
                     password = form.cleaned_data['password']
 
+                    email = form.cleaned_data['email']
+
                     # Create standard Django user
                     user = User.objects.create_user(
                         username=phone,
                         password=password,
-                        first_name=name
+                        first_name=name,
+                        email=email
                     )
                     
                     # Create linked client profile
-                    Cliente.objects.create(user=user, phone=phone)
+                    Cliente.objects.create(user=user, phone=phone, email=email)
 
                     # Automatically log in the client
                     login(request, user)
