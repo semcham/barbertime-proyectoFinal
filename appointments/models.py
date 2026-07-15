@@ -69,7 +69,16 @@ class Appointment(SoftDeleteModel):
     def __str__(self):
         return f"Cita de {self.client.user.first_name} con {self.barber.first_name} - {self.date} {self.start_time}"
 
+    def _normalizar_horas(self):
+        """Convierte start_time/end_time de texto ('HH:MM:SS') a objetos time, si hace falta."""
+        if isinstance(self.start_time, str):
+            self.start_time = datetime.strptime(self.start_time, '%H:%M:%S').time()
+        if isinstance(self.end_time, str):
+            self.end_time = datetime.strptime(self.end_time, '%H:%M:%S').time()
+
     def clean(self):
+        self._normalizar_horas()
+
         # Require barber to be staff
         if self.barber and not self.barber.is_staff:
             raise ValidationError("El barbero seleccionado debe ser miembro del personal (staff).")
@@ -79,7 +88,7 @@ class Appointment(SoftDeleteModel):
             raise ValidationError("No se pueden programar citas para un servicio inactivo.")
 
         # Calculate end_time automatically if start_time and service are present
-        if self.start_time and self.service:
+        if self.start_time and self.service_id and not self.end_time:
             dummy_date = date(2000, 1, 1)
             start_dt = datetime.combine(dummy_date, self.start_time)
             end_dt = start_dt + timedelta(minutes=self.service.duration)
@@ -102,10 +111,16 @@ class Appointment(SoftDeleteModel):
                 overlapping = overlapping.exclude(pk=self.pk)
 
             for app in overlapping:
-                # Standard overlap check
                 if self.start_time < app.end_time and self.end_time > app.start_time:
                     raise ValidationError("El barbero ya tiene una cita programada en este horario.")
 
     def save(self, *args, **kwargs):
+        self._normalizar_horas()
+        if self.start_time and self.service_id and not self.end_time:
+            dummy_date = date(2000, 1, 1)
+            start_dt = datetime.combine(dummy_date, self.start_time)
+            end_dt = start_dt + timedelta(minutes=self.service.duration)
+            self.end_time = end_dt.time()
+
         self.full_clean()
         super().save(*args, **kwargs)
