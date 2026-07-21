@@ -9,15 +9,15 @@
 </div>
 
 <!-- Filters bar -->
-<form method="get" class="filter-bar" style="margin-top: 1.5rem;">
+<form method="get" class="filter-bar">
     <div class="filter-group">
-        <label for="date-filter" class="form-label" style="margin-bottom: 0;">Filtrar por Fecha</label>
-        <input type="date" name="date" id="date-filter" class="form-control" value="{{ selected_date }}" style="padding: 0.4rem 0.8rem; width: auto;">
+        <label for="date-filter" class="form-label">Filtrar por Fecha</label>
+        <input type="date" name="date" id="date-filter" class="form-control" value="{{ selected_date }}">
     </div>
     
     <div class="filter-group">
-        <label for="status-filter" class="form-label" style="margin-bottom: 0;">Filtrar por Estado</label>
-        <select name="status" id="status-filter" class="form-control" style="padding: 0.4rem 0.8rem; width: auto;">
+        <label for="status-filter" class="form-label">Filtrar por Estado</label>
+        <select name="status" id="status-filter" class="form-control">
             <option value="ALL" {% if selected_status == 'ALL' %}selected{% endif %}>Todos los estados</option>
             {% for code, label in status_choices %}
                 <option value="{{ code }}" {% if selected_status == code %}selected{% endif %}>{{ label }}</option>
@@ -25,8 +25,10 @@
         </select>
     </div>
     
-    <button type="submit" class="btn btn-secondary btn-sm" style="height: 38px;">Aplicar Filtros</button>
-    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-sm" style="height: 38px; display: flex; align-items: center; justify-content: center;">Limpiar</a>
+    <div class="filter-actions">
+        <button type="submit" class="btn btn-secondary btn-sm">Aplicar Filtros</button>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-sm">Limpiar</a>
+    </div>
 </form>
 
 <div class="card">

@@ -3,7 +3,7 @@
 {% block title %}Reservar en Nombre - BarberTime{% endblock %}
 
 {% block content %}
-<div class="form-card" style="max-width: 600px;">
+<div class="form-card form-card-wide">
     <h2 class="form-title">Reservar en Nombre de Cliente</h2>
     
     <form method="post" novalidate>
@@ -76,9 +76,9 @@
             {% endif %}
         </div>
 
-        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary" style="flex: 1;">Cancelar</a>
-            <button type="submit" class="btn btn-primary" style="flex: 2;">Registrar Reserva</button>
+        <div class="form-actions">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-cancel">Cancelar</a>
+            <button type="submit" class="btn btn-primary btn-submit">Registrar Reserva</button>
         </div>
     </form>
 </div>

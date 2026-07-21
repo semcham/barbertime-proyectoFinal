@@ -23,9 +23,14 @@
                 <a href="/" class="logo-link">
                     <span class="logo-barber">Barber</span><span class="logo-time">Time</span>
                 </a>
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación">
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                </button>
             </div>
             
-            <nav class="nav-menu">
+            <nav class="nav-menu" id="navMenu">
                 {% if user.is_authenticated %}
                     {% if user.is_staff %}
                         <a href="{% url 'admin_dashboard' %}" class="nav-link">Panel Admin</a>
@@ -71,6 +76,49 @@
             <p>&copy; 2026 BarberTime. Todos los derechos reservados. Stack tecnológico: Django MVT + PostgreSQL.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menú Hamburguesa Responsivo
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                });
+            }
+
+            // Mostrar / Ocultar Contraseña en campos de tipo password
+            const passwordFields = document.querySelectorAll('input[type="password"]');
+            passwordFields.forEach(function(field) {
+                if (field.dataset.hasToggle) return;
+                field.dataset.hasToggle = 'true';
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'password-wrapper';
+                field.parentNode.insertBefore(wrapper, field);
+                wrapper.appendChild(field);
+
+                const toggleBtn = document.createElement('button');
+                toggleBtn.type = 'button';
+                toggleBtn.className = 'password-toggle-btn';
+                toggleBtn.setAttribute('aria-label', 'Mostrar u ocultar contraseña');
+                toggleBtn.innerHTML = '👁️';
+                wrapper.appendChild(toggleBtn);
+
+                toggleBtn.addEventListener('click', function() {
+                    if (field.type === 'password') {
+                        field.type = 'text';
+                        toggleBtn.innerHTML = '🙈';
+                    } else {
+                        field.type = 'password';
+                        toggleBtn.innerHTML = '👁️';
+                    }
+                });
+            });
+        });
+    </script>
 
     {% block extra_js %}{% endblock %}
 </body>
