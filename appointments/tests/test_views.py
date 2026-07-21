@@ -7,39 +7,40 @@ class AuthenticationTests(TestCase):
     def test_client_registration_success(self):
         response = self.client.post(reverse('register'), {
             'name': 'Test Client',
-            'phone': '1234567890',
+            'phone': '987654321',
             'email': 'test.client@test.com',
             'password': 'securepassword123'
         })
         self.assertRedirects(response, reverse('dashboard'))
         
-        user = User.objects.get(username='1234567890')
+        user = User.objects.get(username='987654321')
         self.assertEqual(user.first_name, 'Test Client')
         self.assertTrue(hasattr(user, 'cliente'))
         self.assertTrue(user.cliente.is_active)
 
     def test_client_registration_duplicate_phone(self):
-        User.objects.create_user(username='1234567890', password='password123')
+        User.objects.create_user(username='987654321', password='password123')
         
         response = self.client.post(reverse('register'), {
             'name': 'Another Client',
-            'phone': '1234567890',
+            'phone': '987654321',
             'email': 'otro.cliente@test.com',
             'password': 'securepassword123'
         })
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'El número de teléfono ya está registrado')
 
+
     def test_client_login_success(self):
-        user = User.objects.create_user(username='1234567890', password='password123')
-        Cliente.objects.create(user=user, phone='1234567890', email='login.test@test.com')
+        user = User.objects.create_user(username='987654321', password='password123')
+        Cliente.objects.create(user=user, phone='987654321', email='login.test@test.com')
         
         response = self.client.post(reverse('login'), {
-            'username': '1234567890',
+            'username': '987654321',
             'password': 'password123'
         })
         self.assertRedirects(response, reverse('dashboard'))
-
+        
     def test_staff_login_redirects_to_admin_dashboard(self):
         User.objects.create_superuser(username='admin', password='adminpassword')
         

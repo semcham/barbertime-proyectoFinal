@@ -13,11 +13,11 @@ class ClientRegistrationForm(forms.Form):
     phone = forms.CharField(
         max_length=20,
         label="Número de Teléfono",
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. 3001234567'})
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. 987654321', 'autocomplete': 'tel'})
     )
     email = forms.EmailField(
         label="Correo Electrónico",
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'tucorreo@ejemplo.com'})
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'tucorreo@ejemplo.com', 'autocomplete': 'email'})
     )
     password = forms.CharField(
         label="Contraseña",
@@ -28,8 +28,8 @@ class ClientRegistrationForm(forms.Form):
         phone = self.cleaned_data.get('phone')
         if not phone.isdigit():
             raise ValidationError("El número de teléfono debe contener solo dígitos.")
-        if len(phone) < 7 or len(phone) > 15:
-            raise ValidationError("El número de teléfono debe tener entre 7 y 15 dígitos.")
+        if len(phone) != 9 or not phone.startswith('9'):
+            raise ValidationError("Ingresa un número de celular peruano válido (9 dígitos, debe empezar en 9).")
         if User.objects.filter(username=phone).exists():
             raise ValidationError("El número de teléfono ya está registrado.")
         return phone

@@ -67,6 +67,7 @@ def register_view(request):
 
 
 # Direct Login View handling routing
+# Direct Login View handling routing
 def login_view(request):
     if request.user.is_authenticated:
         if request.user.is_staff:
@@ -74,12 +75,21 @@ def login_view(request):
         return redirect('dashboard')
 
     if request.method == 'POST':
-        phone = request.POST.get('username')
+        identificador = request.POST.get('username', '').strip()
         password = request.POST.get('password')
-        
+
+        # Si el usuario escribió un correo, buscamos a qué teléfono (username) corresponde
+        username_real = identificador
+        if '@' in identificador:
+            try:
+                cliente_encontrado = Cliente.objects.get(email=identificador)
+                username_real = cliente_encontrado.user.username
+            except Cliente.DoesNotExist:
+                username_real = identificador  # dejará fallar la autenticación normalmente
+
         # Verify credentials
         from django.contrib.auth import authenticate
-        user = authenticate(request, username=phone, password=password)
+        user = authenticate(request, username=username_real, password=password)
         
         if user is not None:
             if user.is_active:
@@ -92,7 +102,7 @@ def login_view(request):
             else:
                 messages.error(request, "Esta cuenta ha sido desactivada.")
         else:
-            messages.error(request, "Número de teléfono o contraseña incorrectos.")
+            messages.error(request, "Número de teléfono/correo o contraseña incorrectos.")
 
     return render(request, 'registration/login.html')
 
