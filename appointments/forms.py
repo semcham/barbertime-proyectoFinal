@@ -50,6 +50,13 @@ class ClientAppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
         fields = ['service', 'barber', 'date', 'start_time']
+        # ✏️ Cambia el nombre visual de la etiqueta aquí:
+        labels = {
+            'service': 'Servicio',
+            'barber': 'Barbero',
+            'date': 'Fecha de la cita',
+            'start_time': 'Hora de tu cita',
+        }
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'start_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),

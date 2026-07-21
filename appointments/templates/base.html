@@ -73,7 +73,7 @@
 
     <footer class="app-footer">
         <div class="footer-container">
-            <p>&copy; 2026 BarberTime. Todos los derechos reservados. Stack tecnológico: Django MVT + PostgreSQL.</p>
+            <p>&copy; 2026 BarberTime — Todos los derechos reservados. Stack tecnológico: Django MVT + PostgreSQL.</p>
         </div>
     </footer>
 
@@ -89,34 +89,6 @@
                 });
             }
 
-            // Mostrar / Ocultar Contraseña en campos de tipo password
-            const passwordFields = document.querySelectorAll('input[type="password"]');
-            passwordFields.forEach(function(field) {
-                if (field.dataset.hasToggle) return;
-                field.dataset.hasToggle = 'true';
-
-                const wrapper = document.createElement('div');
-                wrapper.className = 'password-wrapper';
-                field.parentNode.insertBefore(wrapper, field);
-                wrapper.appendChild(field);
-
-                const toggleBtn = document.createElement('button');
-                toggleBtn.type = 'button';
-                toggleBtn.className = 'password-toggle-btn';
-                toggleBtn.setAttribute('aria-label', 'Mostrar u ocultar contraseña');
-                toggleBtn.innerHTML = '👁️';
-                wrapper.appendChild(toggleBtn);
-
-                toggleBtn.addEventListener('click', function() {
-                    if (field.type === 'password') {
-                        field.type = 'text';
-                        toggleBtn.innerHTML = '🙈';
-                    } else {
-                        field.type = 'password';
-                        toggleBtn.innerHTML = '👁️';
-                    }
-                });
-            });
         });
     </script>
 

@@ -25,7 +25,7 @@ urlpatterns = [
 
     # Administrative Portal URLs
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
-    path('admin/appointments/book/', views.admin_book_appointment, name='admin_book'),
+    path('admin-panel/appointments/book/', views.admin_book_appointment, name='admin_book'),
 
     # Recuperación de contraseña
     path('password-reset/', auth_views.PasswordResetView.as_view(

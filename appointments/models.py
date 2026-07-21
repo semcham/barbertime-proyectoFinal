@@ -43,7 +43,7 @@ class Service(SoftDeleteModel):
     price = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __str__(self):
-        return f"{self.name} ({self.duration} min - ${self.price})"
+        return f"{self.name} ({self.duration} min - S/ {self.price})"
 
     def clean(self):
         if self.duration is not None and self.duration <= 0:

@@ -294,6 +294,55 @@ h1, h2, h3, h4, h5, h6, .logo-link {
     transform: translateY(-1px);
 }
 
+/* Password Field & Inline Eye Toggle SVG */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper .form-control {
+    width: 100%;
+    padding-right: 2.8rem;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.2rem;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.password-toggle-btn:hover,
+.password-toggle-btn:focus {
+    color: var(--primary);
+    background: transparent !important;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.password-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    pointer-events: none;
+    display: block;
+}
+
 /* Forms & Cards */
 .form-card {
     background-color: var(--bg-card);

@@ -56,7 +56,7 @@ def register_view(request):
 
                     # Automatically log in the client
                     login(request, user)
-                    messages.success(request, "¡Registro completado con éxito! Bienvenido a BarberTime.")
+                    messages.success(request, "¡Registro completado con éxito! Bienvenido a BarberTime!")
                     return redirect('dashboard')
             except Exception as e:
                 form.add_error(None, "Ocurrió un error al procesar el registro. Inténtelo de nuevo.")
