@@ -34,7 +34,7 @@
 - [X] T005 [P] Configure static files serving via WhiteNoise and root URL routing in `barbertime/settings.py` and `barbertime/urls.py`
 - [X] T006 Create the shared base HTML skeleton structure in `appointments/templates/base.html`
 - [X] T007 [P] Implement base visual design CSS stylesheet in `appointments/static/css/style.css`
-- [ ] T008 Run initial database migrations using `manage.py`
+- [X] T008 Run initial database migrations using `manage.py`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel.
 
@@ -155,9 +155,20 @@
 
 - [X] T036 [P] Implement cascading cancellation logic for appointments when a client profile is soft-deleted in `appointments/models.py`
 - [X] T037 [P] Add premium styling and micro-animations to the forms and dashboards in `appointments/static/css/style.css`
-- [ ] T038 Verify static files collection and Whitenoise setup using `manage.py`
-- [ ] T039 Execute validation checklist in `specs/001-appointment-booking/quickstart.md`
-- [ ] T040 Run all automated tests using `manage.py`
+- [X] T038 Verify static files collection and Whitenoise setup using `manage.py`
+- [X] T039 Execute validation checklist in `specs/001-appointment-booking/quickstart.md`
+- [X] T040 Run all automated tests using `manage.py`
+
+### Post-Implementación & Ajustes Manuales
+
+- [X] T041 [US1] Add mandatory unique email field to `Cliente` model and registration flow in `appointments/models.py` and `appointments/forms.py`
+- [X] T042 [US1] Enforce Peruvian phone number validation (9 digits starting with 9) in `appointments/forms.py`
+- [X] T043 [US6] Implement password recovery flow ("Olvidé mi contraseña") using Django native `PasswordResetView` views in `appointments/urls.py` and `appointments/templates/registration/`
+- [X] T044 [US1] Implement dual login support allowing clients to authenticate using either phone number or email address in `appointments/forms.py` and `appointments/views.py`
+- [X] T045 [P] [US6] Implement responsive floating WhatsApp contact button in `appointments/templates/base.html` and `appointments/static/css/style.css`
+- [X] T046 [P] [US6] Implement full responsive design layout (mobile, tablet, desktop) with hamburger menu, responsive tables, and fluid forms in `appointments/static/css/style.css`
+- [X] T047 [P] Configure cloud deployment on Render with `render.yaml` blueprint and `build.sh` script in project root
+- [X] T048 Configure project timezone to `America/Lima` (Peru) in `barbertime/settings.py`
 
 ---
 

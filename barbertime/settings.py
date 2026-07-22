@@ -143,5 +143,17 @@ LOGOUT_REDIRECT_URL = 'login'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Email & Error Notification Settings
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+ADMINS = [('Sem Torres', 'sem.torres.27@unsch.edu.pe')]
+MANAGERS = ADMINS
+SERVER_EMAIL = os.getenv('SERVER_EMAIL', 'errores@barbertime.com')
+
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+
 

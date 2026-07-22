@@ -12,17 +12,17 @@
 
 ### User Story 1 - Client Registration & Authentication (Priority: P1)
 
-Any new customer can register by providing their name, phone number, and a secure password. Once registered, they can log in to access the client portal.
+Any new customer can register by providing their name, a unique email address, a Peruvian phone number (9 digits, starting with 9), and a secure password. Once registered, they can log in to access the client portal using either their phone number or their email address.
 
 **Why this priority**: Crucial entry point to enable personalized experience and ensure customer privacy.
 
-**Independent Test**: A new user can successfully sign up and log in, seeing an empty upcoming appointments dashboard.
+**Independent Test**: A new user can successfully sign up with email and Peruvian phone number, log in using either email or phone, and access their client dashboard.
 
 **Acceptance Scenarios**:
 
-1. **Given** a visitor is on the registration page, **When** they fill in their name, a unique phone number, and a secure password and submit the form, **Then** their client account is created, they are automatically logged in, and they are redirected to the client dashboard.
-2. **Given** a registered client is on the login page, **When** they enter their phone number and correct password, **Then** they are logged in and redirected to the client dashboard.
-3. **Given** a visitor tries to register, **When** they enter a phone number that is already registered in the system, **Then** the registration fails with a clear message indicating the phone number is already in use.
+1. **Given** a visitor is on the registration page, **When** they fill in their name, a unique mandatory email address, a valid 9-digit Peruvian phone number starting with 9, and a secure password and submit the form, **Then** their client account is created, they are automatically logged in, and they are redirected to the client dashboard.
+2. **Given** a registered client is on the login page, **When** they enter either their phone number or their registered email address along with their correct password, **Then** they are logged in and redirected to the client dashboard.
+3. **Given** a visitor tries to register, **When** they enter a phone number that does not match Peruvian format (must be 9 digits starting with 9) or a phone/email that is already registered in the system, **Then** the registration fails with a clear validation error message.
 
 ---
 
@@ -89,27 +89,50 @@ Administrators can view a master list of all appointments in the system, with fi
 
 ---
 
+### User Story 6 - Password Recovery, Support & Responsive Experience (Priority: P2)
+
+Registered clients can reset forgotten passwords via email ("Olvidé mi contraseña"), all users can contact support directly via a floating WhatsApp button, and the application displays seamlessly across mobile, tablet, and desktop screens.
+
+**Why this priority**: Enhances customer retention, accessibility, and direct communication while ensuring a modern mobile-first user experience.
+
+**Independent Test**: A client requests a password reset link to their registered email address, completes the reset process, and uses a mobile browser to interact with the responsive layout and floating WhatsApp contact button.
+
+**Acceptance Scenarios**:
+
+1. **Given** a user is on the login page and forgot their password, **When** they click "Olvidé mi contraseña" and enter their registered email, **Then** a reset link is generated and sent (via console in development / SMTP in production) allowing them to securely set a new password.
+2. **Given** any visitor or client is browsing the website on any page, **When** they view the bottom-right corner of the screen, **Then** a floating circular WhatsApp button `#25D366` is visible, which opens WhatsApp with a predefined inquiry message upon click.
+3. **Given** a user accesses the site on a mobile device, tablet, or desktop, **When** they navigate pages or view appointment tables, **Then** the UI adapts responsively with a mobile hamburger navigation menu, flexible form cards, and horizontally scrollable tables.
+
+---
+
 ### Edge Cases
 
 - **Service Deactivation**: When a service is logically deleted (marked inactive), any existing scheduled appointments for that service must remain active and visible. However, no new appointments can be booked for that service.
 - **Client Deactivation**: When a client profile is marked inactive, their future scheduled appointments should be automatically cancelled to free up the barbers' calendars.
 - **Race Condition Bookings**: If two users attempt to book the exact same time slot for the same barber simultaneously, the transaction must be handled sequentially. The first booking request processed must succeed, and the second must fail with a validation message indicating the slot has just been taken.
 - **Out of Hours Booking**: If a booking is requested outside standard operating hours (e.g., 9:00 PM), the system must reject it.
+- **Invalid Phone Format**: If a user attempts registration with a non-Peruvian phone number (not starting with 9 or not exactly 9 digits), registration is blocked.
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: The system MUST support client self-registration with name, unique phone number, and password, and secure login for both clients and staff.
-- **FR-002**: Clients MUST only be able to view, search, and cancel their own appointments, ensuring complete isolation from other clients' data.
-- **FR-003**: Staff members MUST be able to manage (create, view, edit, logically delete) clients, services, and appointments for any customer.
-- **FR-004**: The system MUST automatically validate schedule conflicts for the chosen barber. An appointment booking MUST be rejected if the start-to-end interval overlaps with any other active (non-cancelled) appointment for the same barber.
-- **FR-005**: The system MUST implement logical deletion (soft delete) for clients, services, and appointments by setting an active/inactive status flag rather than permanently deleting database rows.
-- **FR-006**: The admin panel MUST display a list of all appointments with filters for date (single day) and appointment status (e.g., Scheduled, Completed, Cancelled).
+- **FR-001**: The system MUST support client self-registration with name, mandatory unique email, unique Peruvian phone number (9 digits starting with 9), and secure password.
+- **FR-002**: The login system MUST allow authentication using either the registered phone number OR the registered email address.
+- **FR-003**: The system MUST provide a full password recovery workflow ("Olvidé mi contraseña") using Django's native reset views (`PasswordResetView`, `PasswordResetDoneView`, `PasswordResetConfirmView`, `PasswordResetCompleteView`).
+- **FR-004**: Clients MUST only be able to view, search, and cancel their own appointments, ensuring complete isolation from other clients' data.
+- **FR-005**: Staff members MUST be able to manage (create, view, edit, logically delete) clients, services, and appointments for any customer.
+- **FR-006**: The system MUST automatically validate schedule conflicts for the chosen barber. An appointment booking MUST be rejected if the start-to-end interval overlaps with any other active (non-cancelled) appointment for the same barber.
+- **FR-007**: The system MUST implement logical deletion (soft delete) for clients, services, and appointments by setting an active/inactive status flag rather than permanently deleting database rows.
+- **FR-008**: The admin panel MUST display a list of all appointments with filters for date (single day) and appointment status (e.g., Scheduled, Completed, Cancelled).
+- **FR-009**: The system MUST render a fixed floating WhatsApp contact button (`#25D366`) on all pages linking to `https://wa.me/51929890868?text=Hola%2C%20quiero%20consultar%20sobre%20una%20cita%20en%20BarberTime`.
+- **FR-010**: The user interface MUST be fully responsive (supporting mobile <600px, tablet 600px-1024px, and desktop >1024px) with a mobile hamburger toggle menu, responsive tables with horizontal overflow scrolling, and fluid card forms.
+- **FR-011**: The project timezone MUST be configured to `America/Lima` (Peru) for accurate date/time rendering and appointment conflict checking.
+- **FR-012**: The application MUST be configured for automated cloud deployment on Render using a `render.yaml` Blueprint specification (Web Service + PostgreSQL) and a root `build.sh` script.
 
 ### Key Entities *(include if feature involves data)*
 
-- **Client**: Represents a registered customer. Key attributes: Name, Phone Number, Password (secured/hashed), Active Status (Boolean).
+- **Client**: Represents a registered customer. Key attributes: Name, Email (unique, required), Phone Number (unique, 9-digit Peruvian starting with 9), Password (secured/hashed), Active Status (Boolean).
 - **Staff/Admin**: Represents a barber shop employee or system administrator who can log in to the admin panel. Key attributes: Username, Password, Active Status (Boolean).
 - **Barber**: Represents a service provider (may map directly to a Staff/Admin user who performs services). Key attributes: Name, Active Status (Boolean).
 - **Service**: Represents a haircut, shave, or other styling service. Key attributes: Name, Description, Duration (minutes), Price, Active Status (Boolean).
@@ -124,6 +147,8 @@ Administrators can view a master list of all appointments in the system, with fi
 - **SC-003**: 100% of logical deletion actions successfully hide the target entity from normal booking flows while preserving the record in the database for auditing.
 - **SC-004**: Zero (0) unauthorized data exposure incidents (no client can view another client's booking details via direct URL navigation or API parameter tampering).
 - **SC-005**: The admin dashboard updates list results in under 2 seconds when filtering by date or status.
+- **SC-006**: 100% of phone number registrations strictly comply with the 9-digit Peruvian mobile phone format starting with 9.
+- **SC-007**: 100% of pages display the responsive layout correctly without layout breakage across mobile, tablet, and desktop viewports.
 
 ## Assumptions
 
@@ -131,3 +156,6 @@ Administrators can view a master list of all appointments in the system, with fi
 - **ASSUMPTION-002**: Appointment end times are calculated automatically based on the start time and the fixed duration of the selected service.
 - **ASSUMPTION-003**: The UI will be constructed as a server-rendered web application using vanilla CSS (no Single Page Application framework).
 - **ASSUMPTION-004**: Users (both staff and clients) will access the system via modern web browsers and have stable internet connectivity.
+- **ASSUMPTION-005**: Password reset emails use Django's console email backend during local development and SMTP/cloud backend in production.
+- **ASSUMPTION-006**: Timezone is set to `America/Lima` (Peru) for localized business operations.
+
