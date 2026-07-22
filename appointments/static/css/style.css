@@ -558,6 +558,61 @@ h1, h2, h3, h4, h5, h6, .logo-link {
 }
 
 /* ==========================================================================
+   BOTÓN FLOTANTE DE WHATSAPP
+   ========================================================================== */
+.whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                box-shadow 0.3s ease, 
+                background-color 0.3s ease;
+    animation: whatsapp-pulse 2.5s infinite;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1) translateY(-3px);
+    background-color: #20ba5a;
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
+    animation: none;
+}
+
+.whatsapp-float:active {
+    transform: scale(0.96) translateY(0);
+}
+
+.whatsapp-icon {
+    width: 32px;
+    height: 32px;
+    fill: currentColor;
+}
+
+@keyframes whatsapp-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    70% {
+        box-shadow: 0 0 0 14px rgba(37, 211, 102, 0), 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0), 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+}
+
+
+/* ==========================================================================
    MEDIA QUERIES (3 PUNTOS DE QUIEBRE: CELULAR, TABLET, ESCRITORIO)
    ========================================================================== */
 
@@ -696,6 +751,18 @@ h1, h2, h3, h4, h5, h6, .logo-link {
 
     .table th, .table td {
         padding: 0.7rem 0.7rem;
+    }
+
+    .whatsapp-float {
+        bottom: 18px;
+        right: 18px;
+        width: 52px;
+        height: 52px;
+    }
+
+    .whatsapp-icon {
+        width: 28px;
+        height: 28px;
     }
 }
 

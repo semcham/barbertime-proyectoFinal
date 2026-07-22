@@ -2,6 +2,7 @@ from django.urls import path
 from django.shortcuts import redirect
 from . import views
 from django.contrib.auth import views as auth_views
+
 def root_redirect(request):
     if request.user.is_authenticated:
         if request.user.is_staff:
@@ -26,6 +27,10 @@ urlpatterns = [
     # Administrative Portal URLs
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin-panel/appointments/book/', views.admin_book_appointment, name='admin_book'),
+    #  Para que el administrador cancele citas:
+    path('admin-dashboard/cancel/<int:id>/', views.admin_cancel_appointment, name='admin_cancel'),
+
+    path('admin-dashboard/complete/<int:id>/', views.admin_complete_appointment, name='admin_complete'),
 
     # Recuperación de contraseña
     path('password-reset/', auth_views.PasswordResetView.as_view(

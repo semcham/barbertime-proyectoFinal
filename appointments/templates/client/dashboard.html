@@ -1,89 +1,92 @@
-{% extends "base.html" %}
-
-{% block title %}Mi Portal - BarberTime{% endblock %}
-
-{% block content %}
-<div class="card-header" style="margin-top: 1rem;">
-    <h2>Mi Portal de Reservas</h2>
-    <a href="{% url 'book' %}" class="btn btn-primary">Reservar Nueva Cita</a>
+{% extends "base.html" %} {% block title %}Mi Portal - BarberTime{% endblock %} {% block content %}
+<div class="card-header" style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center">
+  <h2>Mi Portal de Reservas</h2>
+  <a href="{% url 'book' %}" class="btn btn-primary">Reservar Nueva Cita</a>
 </div>
 
-<div class="dashboard-grid">
-    <div class="card">
-        <h3 class="card-title" style="margin-bottom: 1rem;">Próximas Citas</h3>
-        
-        {% if upcoming_appointments %}
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>Servicio</th>
-                            <th>Barbero</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for app in upcoming_appointments %}
-                            <tr>
-                                <td>{{ app.date|date:"d M, Y" }}</td>
-                                <td>{{ app.start_time|time:"H:i" }} - {{ app.end_time|time:"H:i" }}</td>
-                                <td>{{ app.service.name }}</td>
-                                <td>{{ app.barber.first_name|default:app.barber.username }}</td>
-                                <td>
-                                    <form action="{% url 'cancel_appointment' app.id %}" method="post" onsubmit="return confirm('¿Estás seguro de que deseas cancelar esta cita?');" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <p style="color: var(--text-muted); font-style: italic;">No tienes citas programadas actualmente.</p>
-        {% endif %}
-    </div>
+<div class="dashboard-grid" style="margin-top: 2rem">
+  <!-- Próximas Citas -->
+  <div class="card" style="margin-bottom: 2rem">
+    <h3 class="card-title" style="margin-bottom: 1rem">Próximas Citas</h3>
 
-    <div class="card">
-        <h3 class="card-title" style="margin-bottom: 1rem;">Historial de Citas</h3>
-        
-        {% if past_appointments %}
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>Servicio</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for app in past_appointments %}
-                            <tr>
-                                <td>{{ app.date|date:"d M" }}</td>
-                                <td>{{ app.start_time|time:"H:i" }}</td>
-                                <td>{{ app.service.name }}</td>
-                                <td>
-                                    {% if app.status == 'COMPLETED' %}
-                                        <span class="badge badge-completed">Completada</span>
-                                    {% elif app.status == 'CANCELLED' %}
-                                        <span class="badge badge-cancelled">Cancelada</span>
-                                    {% else %}
-                                        <span class="badge badge-scheduled">Expirada</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <p style="color: var(--text-muted); font-style: italic;">No hay registros de citas anteriores.</p>
-        {% endif %}
+    {% if upcoming_appointments %}
+    <div class="table-responsive">
+      <table class="table" style="width: 100%">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Servicio</th>
+            <th>Barbero</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in upcoming_appointments %}
+          <tr>
+            <td>{{ app.date|date:"d M, Y" }}</td>
+            <td>{{ app.start_time|time:"H:i" }} - {{ app.end_time|time:"H:i" }}</td>
+            <td>{{ app.service.name }}</td>
+            <td>{{ app.barber.first_name|default:app.barber.username }}</td>
+            <td>
+              <form
+                action="{% url 'cancel_appointment' app.id %}"
+                method="post"
+                onsubmit="return confirm('¿Estás seguro de que deseas cancelar esta cita?');"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+    {% else %}
+    <p style="color: var(--text-muted); font-style: italic">No tienes citas programadas actualmente.</p>
+    {% endif %}
+  </div>
+
+  <!-- Historial de Citas -->
+  <div class="card">
+    <h3 class="card-title" style="margin-bottom: 1rem">Historial de Citas</h3>
+
+    {% if past_appointments %}
+    <div class="table-responsive">
+      <table class="table" style="width: 100%">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Servicio</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in past_appointments %}
+          <tr>
+            <td>{{ app.date|date:"d M" }}</td>
+            <td>{{ app.start_time|time:"H:i" }}</td>
+            <td>{{ app.service.name }}</td>
+            <td>
+              {% if app.status == 'COMPLETED' %}
+              <span class="badge badge-completed">Completada</span>
+              {% elif app.status == 'CANCELLED' %}
+              <span class="badge badge-cancelled">Cancelada</span>
+              {% else %}
+              <span class="badge badge-scheduled">Expirada</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); font-style: italic">No hay registros de citas anteriores.</p>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

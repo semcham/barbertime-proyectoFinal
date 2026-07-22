@@ -196,29 +196,24 @@ def client_cancel_appointment(request, id):
 
 
 # Administrative Portal views
+# Administrative Portal views
 @login_required
 @staff_member_required
 def admin_dashboard(request):
     # Retrieve query parameters for filtering
-    filter_date_str = request.GET.get('date')
+    filter_date_str = request.GET.get('date', '').strip()
     filter_status = request.GET.get('status', 'ALL')
     
     # Base query for active appointments
     appointments = Appointment.objects.all().order_by('date', 'start_time')
     
-    # Apply date filter (default to today if not provided)
+    # Aplicar filtro de fecha SOLO si el usuario seleccionó una fecha específica
     if filter_date_str:
         try:
             filter_date = datetime.strptime(filter_date_str, '%Y-%m-%d').date()
             appointments = appointments.filter(date=filter_date)
         except ValueError:
-            filter_date = date.today()
-            appointments = appointments.filter(date=filter_date)
-            filter_date_str = filter_date.strftime('%Y-%m-%d')
-    else:
-        filter_date = date.today()
-        appointments = appointments.filter(date=filter_date)
-        filter_date_str = filter_date.strftime('%Y-%m-%d')
+            filter_date_str = ''
 
     # Apply status filter
     if filter_status != 'ALL':
@@ -230,7 +225,6 @@ def admin_dashboard(request):
         'selected_status': filter_status,
         'status_choices': Appointment.STATUS_CHOICES
     })
-
 
 @login_required
 @staff_member_required
@@ -267,3 +261,25 @@ def admin_book_appointment(request):
         'services': Service.objects.filter(is_active=True),
         'barbers': User.objects.filter(is_staff=True, is_active=True)
     })
+
+@login_required
+@staff_member_required
+def admin_cancel_appointment(request, id):
+    if request.method == 'POST':
+        appointment = get_object_or_404(Appointment, id=id, status='SCHEDULED')
+        appointment.status = 'CANCELLED'
+        appointment.save()
+        messages.success(request, f"La cita de {appointment.client.user.first_name} fue cancelada correctamente.")
+        
+    return redirect('admin_dashboard')
+
+@login_required
+@staff_member_required
+def admin_complete_appointment(request, id):
+    if request.method == 'POST':
+        appointment = get_object_or_404(Appointment, id=id, status='SCHEDULED')
+        appointment.status = 'COMPLETED'
+        appointment.save()
+        messages.success(request, f"La cita de {appointment.client.user.first_name} ha sido marcada como completada.")
+        
+    return redirect('admin_dashboard')

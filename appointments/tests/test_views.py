@@ -97,3 +97,10 @@ class ClientPortalTests(TestCase):
         
         self.app1.refresh_from_db()
         self.assertEqual(self.app1.status, 'SCHEDULED')
+
+    def test_whatsapp_floating_button_rendered(self):
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="whatsapp-float"')
+        self.assertContains(response, 'https://wa.me/51929890868?text=Hola%2C%20quiero%20consultar%20sobre%20una%20cita%20en%20BarberTime')
+
