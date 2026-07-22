@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-es'  # Configured to Spanish for BarberTime business context
 
-TIME_ZONE = 'America/Bogota'  # Local timezone for Colombia
+TIME_ZONE = 'America/Lima'  # Local timezone for Colombia
 
 USE_I18N = True
 
